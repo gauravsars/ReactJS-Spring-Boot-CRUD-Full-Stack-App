@@ -1,7 +1,6 @@
 package net.javaguides.springboot.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import net.javaguides.springboot.dto.EmployeeDto;
 import net.javaguides.springboot.entity.Employee;
 import net.javaguides.springboot.mapper.EmployeeMapper;
@@ -39,6 +38,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> employeeDtoList = employeeList.stream().map(employee -> EmployeeMapper.mapToEmployeeDto(employee)).collect(Collectors.toList());
         return employeeDtoList;
     }
+
+    @Override
+    public EmployeeDto updateEmployee(EmployeeDto updatedEmployee) {
+       Employee employee =employeeRepository.findEmployeeById(updatedEmployee.getId());
+       employee.setFirstName(updatedEmployee.getFirstName());
+       employee.setLastName(updatedEmployee.getLastName());
+       employee.setEmail(updatedEmployee.getEmail());
+       Employee updatedObject = employeeRepository.save(employee);
+       return EmployeeMapper.mapToEmployeeDto(updatedObject);
+    }
+
 
 
 }
