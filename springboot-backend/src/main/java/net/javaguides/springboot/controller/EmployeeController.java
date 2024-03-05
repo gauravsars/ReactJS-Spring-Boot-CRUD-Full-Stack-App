@@ -1,0 +1,36 @@
+package net.javaguides.springboot.controller;
+
+import lombok.AllArgsConstructor;
+import net.javaguides.springboot.dto.EmployeeDto;
+import net.javaguides.springboot.service.EmployeeService;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@AllArgsConstructor
+@RestController
+@RequestMapping("/api/employees")
+public class EmployeeController {
+
+    private EmployeeService employeeService;
+
+    //Build Add Employee Rest API.
+
+    @PostMapping
+    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employee) {
+        EmployeeDto savedEmployee = employeeService.createEmployee(employee);
+
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id")Long employeeId) {
+        EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
+        return  ResponseEntity.ok(employeeDto);
+    }
+
+
+
+
+}
